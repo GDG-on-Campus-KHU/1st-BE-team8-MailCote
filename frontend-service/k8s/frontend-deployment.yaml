@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-service
+  labels:
+    app: frontend-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-service
+  template:
+    metadata:
+      labels:
+        app: frontend-service
+    spec:
+      containers:
+      - name: frontend-service
+        image: asia-northeast3-docker.pkg.dev/gifted-bongo-442811-h6/frontend-docker-repo/yoonheoz/frontend-service:1.4
+        ports:
+        - containerPort: 8501 # Streamlit 포트
+
+        env:
+        - name: MEMBER_SERVICE_HOST
+          value: "member-service" # member-service의 클러스터 DNS 이름
+        - name: MEMBER_SERVICE_PORT
+          value: "50052"          # member-service의 포트
